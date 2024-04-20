@@ -12,10 +12,13 @@ plugins {
 
 rootProject.name = 'spring-framework'
 
-include 'spring-core'
 include 'spring-data'
 include 'spring-mvc'
 include 'spring-boot'
 include 'spring-security'
 include 'spring-cloud'
+include 'spring-framework:core-technologies:ioc-container'
+include 'spring-framework:core-technologies:ioc-container:container-overview'
+include 'spring-framework:core-technologies:ioc-container:bean-overview'
+include 'spring-framework:core-technologies:resources'
 
