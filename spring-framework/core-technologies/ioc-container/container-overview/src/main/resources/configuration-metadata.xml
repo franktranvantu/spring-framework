@@ -5,10 +5,14 @@
 		https://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="employee" class="com.franktranvantu.springframework.coretechnologies.ioccontainer.containeroverview.model.Employee">
-
+        <property name="firstName" value="Tu" />
+        <property name="lastName" value="Tran Van" />
+        <property name="dateOfBirth" value="01/01/2024" />
+        <property name="phoneNumber" value="0123456789" />
     </bean>
 
     <bean id="team" class="com.franktranvantu.springframework.coretechnologies.ioccontainer.containeroverview.model.Team">
-
+        <constructor-arg name="name" value="Print Engine" />
+        <constructor-arg name="location" value="Ho Chi Minh" />
     </bean>
 </beans>
