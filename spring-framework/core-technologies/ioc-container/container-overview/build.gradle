@@ -1,7 +1,3 @@
-plugins {
-    id 'java'
-}
-
 dependencies {
-    implementation(libs.spring.context)
+    implementation(libs.springContext)
 }

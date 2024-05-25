@@ -1,0 +1,34 @@
+plugins {
+    alias(libs.plugins.dependencyManagement) apply false
+    alias(libs.plugins.springBoot) apply false
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
+
+    dependencies {
+        // Lombok
+        compileOnly(libs.lombok)
+        annotationProcessor(libs.lombok)
+
+        // Logback
+        implementation(libs.logback)
+
+        // Starter Test
+//        testImplementation(libs.spring.boot.test)
+        // Junit Jupiter
+        testImplementation(libs.junitJupiter)
+        // AssertJ
+        testImplementation(libs.assertj)
+    }
+
+//    sourceSets {
+//        main {
+//            resources {
+//                srcDirs = files("config/logback/logback.xml")
+//            }
+//        }
+//    }
+}

@@ -6,11 +6,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {
-    public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("configuration-metadata.xml");
-        final var employee = context.getBean("employee", Employee.class);
-        final var team = context.getBean("team", Team.class);
-        System.out.println(employee);
-        System.out.println(team);
+    private static final ApplicationContext context = new ClassPathXmlApplicationContext("configuration-metadata.xml");
+
+    public Employee getEmployee() {
+        return context.getBean("employee", Employee.class);
+    }
+
+    public Team getTeam() {
+        return context.getBean("team", Team.class);
     }
 }

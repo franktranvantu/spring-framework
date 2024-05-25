@@ -1,5 +1,24 @@
 [versions]
-spring-context = "6.1.6"
+springDependencyManagement = "1.1.4"
+spring = "6.1.6"
+springBoot = "3.2.5"
+lombok = "1.18.30"
+logback = "1.4.14"
+junitJupiter = "5.10.2"
+assertj = "3.25.3"
+mysqlConnector = "8.4.0"
 
 [libraries]
-spring-context = { module = "org.springframework:spring-context", version.ref = "spring-context" }
+springContext = { module = "org.springframework:spring-context", version.ref = "spring" }
+springJdbc = { module = "org.springframework:spring-jdbc", version.ref = "spring" }
+springBootStarterTest = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
+springBootStarter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "springBoot" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+mysqlConnector = { module = "com.mysql:mysql-connector-j", version.ref = "mysqlConnector" }
+junitJupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junitJupiter" }
+assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+
+[plugins]
+dependencyManagement = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
+springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }
