@@ -11,7 +11,19 @@ public class Application {
     public static void main(String[] args) {
         final var context = new AnnotationConfigApplicationContext(Application.class);
         final var service = context.getBean(ActorService.class);
-        int count = service.count();
-        log.info("Total actors: {}", count);
+        final var rowCount = service.count();
+        final var countOfActorsNamedJoe = service.count("Robert");
+        final var lastName = service.lastName(3);
+        final var actor = service.actor(3);
+        final var actors = service.actors();
+        service.insert("Frank", "Tran");
+        service.update("Ruffalo", 3);
+        service.delete(3);
+        service.execute("create table mytable (id integer, name varchar(100))");
+        log.info("rowCount: {}", rowCount);
+        log.info("countOfActorsNamedJoe: {}", countOfActorsNamedJoe);
+        log.info("lastName: {}", lastName);
+        log.info("actor: {}", actor);
+        log.info("actors: {}", actors);
     }
 }
