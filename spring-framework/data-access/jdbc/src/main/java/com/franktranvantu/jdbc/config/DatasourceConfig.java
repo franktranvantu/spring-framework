@@ -1,13 +1,14 @@
 package com.franktranvantu.jdbc.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
-import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
 import javax.sql.DataSource;
@@ -15,7 +16,7 @@ import javax.sql.DataSource;
 @Configuration
 public class DatasourceConfig {
     @Bean
-    public DataSource dataSource() {
+    public DataSource driverManagerDataSource() {
         final var dataSource = new DriverManagerDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/spring_jdbc");
         dataSource.setUsername("root");
@@ -24,8 +25,12 @@ public class DatasourceConfig {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(dataSource());
+    public DataSource simpleDriverDataSource() {
+        final var dataSource = new SimpleDriverDataSource();
+        dataSource.setUrl("jdbc:mysql://localhost:3306/spring_jdbc");
+        dataSource.setUsername("root");
+        dataSource.setPassword("root");
+        return dataSource;
     }
 
     @Bean
@@ -35,8 +40,23 @@ public class DatasourceConfig {
         resourceDatabasePopulator.addScript(new ClassPathResource("/db/data.sql"));
 
         DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
-        dataSourceInitializer.setDataSource(dataSource());
+        dataSourceInitializer.setDataSource(simpleDriverDataSource());
         dataSourceInitializer.setDatabasePopulator(resourceDatabasePopulator);
         return dataSourceInitializer;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(simpleDriverDataSource());
+    }
+
+    @Bean
+    public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
+        return new NamedParameterJdbcTemplate(simpleDriverDataSource());
+    }
+
+    @Bean
+    public JdbcClient jdbcClient() {
+        return JdbcClient.create(simpleDriverDataSource());
     }
 }

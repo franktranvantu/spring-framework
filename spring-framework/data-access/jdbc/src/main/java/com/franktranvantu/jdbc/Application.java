@@ -1,6 +1,8 @@
 package com.franktranvantu.jdbc;
 
-import com.franktranvantu.jdbc.service.ActorService;
+import com.franktranvantu.jdbc.service.JdbcClientService;
+import com.franktranvantu.jdbc.service.JdbcTemplateService;
+import com.franktranvantu.jdbc.service.NamedParameterJdbcTemplateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -10,7 +12,9 @@ import org.springframework.context.annotation.ComponentScan;
 public class Application {
     public static void main(String[] args) {
         final var context = new AnnotationConfigApplicationContext(Application.class);
-        final var service = context.getBean(ActorService.class);
+//        final var service = context.getBean(JdbcTemplateService.class);
+        final var service = context.getBean(NamedParameterJdbcTemplateService.class);
+//        final var service = context.getBean(JdbcClientService.class);
         final var rowCount = service.count();
         final var countOfActorsNamedJoe = service.count("Robert");
         final var lastName = service.lastName(3);

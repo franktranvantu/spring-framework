@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class ActorService {
+public class JdbcTemplateService {
     JdbcTemplate jdbcTemplate;
     ActorRowMapper actorRowMapper;
 
@@ -62,6 +62,6 @@ public class ActorService {
     }
 
     public void execute(String sql) {
-        this.jdbcTemplate.execute(sql);
+        jdbcTemplate.execute(sql);
     }
 }
