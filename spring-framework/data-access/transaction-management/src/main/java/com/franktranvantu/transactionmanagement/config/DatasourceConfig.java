@@ -1,21 +1,22 @@
-package com.franktranvantu.jdbc.config;
+package com.franktranvantu.transactionmanagement.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.transaction.TransactionManager;
 
 import javax.sql.DataSource;
 
 @Configuration
 public class DatasourceConfig {
+
     @Bean
-    public DataSource driverManagerDataSource() {
+    public DataSource dataSource() {
         final var dataSource = new DriverManagerDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/spring_jdbc");
         dataSource.setUsername("root");
@@ -30,23 +31,19 @@ public class DatasourceConfig {
         resourceDatabasePopulator.addScript(new ClassPathResource("/db/data.sql"));
 
         DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
-        dataSourceInitializer.setDataSource(driverManagerDataSource());
+        dataSourceInitializer.setDataSource(dataSource());
         dataSourceInitializer.setDatabasePopulator(resourceDatabasePopulator);
         return dataSourceInitializer;
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(driverManagerDataSource());
-    }
-
-    @Bean
-    public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
-        return new NamedParameterJdbcTemplate(driverManagerDataSource());
-    }
-
-    @Bean
     public JdbcClient jdbcClient() {
-        return JdbcClient.create(driverManagerDataSource());
+        return JdbcClient.create(dataSource());
     }
+
+    @Bean
+    public TransactionManager transactionManager() {
+        return new DataSourceTransactionManager(dataSource());
+    }
+
 }

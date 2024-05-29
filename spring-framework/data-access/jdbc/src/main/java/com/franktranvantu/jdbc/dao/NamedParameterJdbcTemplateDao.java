@@ -1,22 +1,21 @@
-package com.franktranvantu.jdbc.service;
+package com.franktranvantu.jdbc.dao;
 
 import com.franktranvantu.jdbc.domain.Actor;
 import com.franktranvantu.jdbc.mapper.ActorRowMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@Component
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class NamedParameterJdbcTemplateService {
+public class NamedParameterJdbcTemplateDao implements ActorDao {
     NamedParameterJdbcTemplate jdbcTemplate;
     ActorRowMapper actorRowMapper;
 

@@ -13,5 +13,5 @@ include 'spring-framework:testing'
 include 'spring-framework:testing:unit-test'
 include 'spring-framework:data-access'
 include 'spring-framework:data-access:jdbc'
-findProject(':spring-framework:data-access:jdbc')?.name = 'jdbc'
+include 'spring-framework:data-access:transaction-management'
 

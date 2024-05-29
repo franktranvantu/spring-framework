@@ -1,4 +1,4 @@
-package com.franktranvantu.jdbc.service;
+package com.franktranvantu.jdbc.dao;
 
 import com.franktranvantu.jdbc.domain.Actor;
 import com.franktranvantu.jdbc.mapper.ActorRowMapper;
@@ -6,14 +6,14 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Service
+@Component
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class JdbcTemplateService {
+public class JdbcTemplateDao implements ActorDao {
     JdbcTemplate jdbcTemplate;
     ActorRowMapper actorRowMapper;
 
