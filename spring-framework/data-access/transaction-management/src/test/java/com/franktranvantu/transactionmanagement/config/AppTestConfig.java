@@ -7,6 +7,7 @@ import com.franktranvantu.transactionmanagement.service.PlatformTransactionManag
 import com.franktranvantu.transactionmanagement.service.TransactionTemplateService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -14,7 +15,8 @@ import org.springframework.transaction.support.TransactionTemplate;
 import static org.mockito.Mockito.spy;
 
 @Configuration
-public class AppConfig {
+@Import({DatasourceTestConfig.class, JdbcClientTestConfig.class, TransactionTestConfig.class})
+public class AppTestConfig {
     @Bean
     public ActorDao actorDao(JdbcClient jdbcClient) {
         return spy(new JdbcClientDao(jdbcClient, new ActorRowMapper()));

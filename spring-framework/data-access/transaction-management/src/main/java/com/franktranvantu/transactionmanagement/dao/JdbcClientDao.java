@@ -17,7 +17,7 @@ public class JdbcClientDao implements ActorDao {
     JdbcClient jdbcTemplate;
     ActorRowMapper actorRowMapper;
 
-    public int count() {
+    public int countAll() {
         return jdbcTemplate
                 .sql("select count(*) from t_actor")
                 .query(Integer.class)
@@ -32,7 +32,7 @@ public class JdbcClientDao implements ActorDao {
                 .single();
     }
 
-    public String lastName(long id) {
+    public String selectLastName(long id) {
         return jdbcTemplate
                 .sql("select last_name from t_actor where id = :id")
                 .param("id", id)
@@ -40,7 +40,7 @@ public class JdbcClientDao implements ActorDao {
                 .single();
     }
 
-    public Actor actor(long id) {
+    public Actor selectActor(long id) {
         return jdbcTemplate
                 .sql("select id, first_name, last_name from t_actor where id = :id")
                 .param("id", id)
@@ -48,7 +48,7 @@ public class JdbcClientDao implements ActorDao {
                 .single();
     }
 
-    public List<Actor> actors() {
+    public List<Actor> selectActors() {
         return jdbcTemplate
                 .sql("select id, first_name, last_name from t_actor")
                 .query(actorRowMapper)

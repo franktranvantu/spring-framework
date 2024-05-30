@@ -17,7 +17,7 @@ public class JdbcTemplateDao implements ActorDao {
     JdbcTemplate jdbcTemplate;
     ActorRowMapper actorRowMapper;
 
-    public int count() {
+    public int countAll() {
         return jdbcTemplate.queryForObject("select count(*) from t_actor", Integer.class);
     }
 
@@ -26,13 +26,13 @@ public class JdbcTemplateDao implements ActorDao {
                 "select count(*) from t_actor where first_name = ?", Integer.class, firstName);
     }
 
-    public String lastName(long id) {
+    public String selectLastName(long id) {
         return this.jdbcTemplate.queryForObject(
                 "select last_name from t_actor where id = ?",
                 String.class, id);
     }
 
-    public Actor actor(long id) {
+    public Actor selectActor(long id) {
         return jdbcTemplate.queryForObject(
                 "select id, first_name, last_name from t_actor where id = ?",
                 (resultSet, rowNum) -> new Actor(
@@ -43,7 +43,7 @@ public class JdbcTemplateDao implements ActorDao {
                 id);
     }
 
-    public List<Actor> actors() {
+    public List<Actor> selectActors() {
         return jdbcTemplate.query(
                 "select id, first_name, last_name from t_actor", actorRowMapper);
     }

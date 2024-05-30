@@ -19,7 +19,7 @@ public class NamedParameterJdbcTemplateDao implements ActorDao {
     NamedParameterJdbcTemplate jdbcTemplate;
     ActorRowMapper actorRowMapper;
 
-    public int count() {
+    public int countAll() {
         final var namedParameters = Collections.EMPTY_MAP;
         return jdbcTemplate.queryForObject("select count(*) from t_actor", namedParameters, Integer.class);
     }
@@ -30,13 +30,13 @@ public class NamedParameterJdbcTemplateDao implements ActorDao {
                 "select count(*) from t_actor where first_name = :firstName", namedParameters, Integer.class);
     }
 
-    public String lastName(long id) {
+    public String selectLastName(long id) {
         final var namedParameters = Map.of("id", id);
         return this.jdbcTemplate.queryForObject(
                 "select last_name from t_actor where id = :id", namedParameters, String.class);
     }
 
-    public Actor actor(long id) {
+    public Actor selectActor(long id) {
         final var namedParameters = Map.of("id", id);
         return jdbcTemplate.queryForObject(
                 "select id, first_name, last_name from t_actor where id = :id",
@@ -44,7 +44,7 @@ public class NamedParameterJdbcTemplateDao implements ActorDao {
                 actorRowMapper);
     }
 
-    public List<Actor> actors() {
+    public List<Actor> selectActors() {
         return jdbcTemplate.query(
                 "select id, first_name, last_name from t_actor", actorRowMapper);
     }

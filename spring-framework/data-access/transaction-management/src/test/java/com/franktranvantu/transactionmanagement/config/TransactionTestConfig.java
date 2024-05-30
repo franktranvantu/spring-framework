@@ -12,7 +12,7 @@ import static org.springframework.transaction.TransactionDefinition.ISOLATION_RE
 import static org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRES_NEW;
 
 @Configuration
-public class TransactionConfig {
+public class TransactionTestConfig {
     @Bean
     public PlatformTransactionManager transactionManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);

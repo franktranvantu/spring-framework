@@ -1,10 +1,7 @@
 package com.franktranvantu.transactionmanagement.service;
 
 import com.franktranvantu.transactionmanagement.TestUtils;
-import com.franktranvantu.transactionmanagement.config.AppConfig;
-import com.franktranvantu.transactionmanagement.config.DatasourceConfig;
-import com.franktranvantu.transactionmanagement.config.JdbcClientConfig;
-import com.franktranvantu.transactionmanagement.config.TransactionConfig;
+import com.franktranvantu.transactionmanagement.config.AppTestConfig;
 import com.franktranvantu.transactionmanagement.dao.ActorDao;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -24,7 +21,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 
-@SpringBootTest(classes = {AppConfig.class, DatasourceConfig.class, JdbcClientConfig.class, TransactionConfig.class})
+@SpringBootTest(classes = {AppTestConfig.class})
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class PlatformTransactionManagerServiceTest {
     @Autowired

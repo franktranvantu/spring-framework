@@ -5,11 +5,11 @@ import com.franktranvantu.jdbc.domain.Actor;
 import java.util.List;
 
 public interface ActorDao {
-    int count();
+    int countAll();
     int count(String firstName);
-    String lastName(long id);
-    Actor actor(long id);
-    List<Actor> actors();
+    String selectLastName(long id);
+    Actor selectActor(long id);
+    List<Actor> selectActors();
     void insert(String firstName, String lastName);
     void update(String lastName, long id);
     void delete(long id);

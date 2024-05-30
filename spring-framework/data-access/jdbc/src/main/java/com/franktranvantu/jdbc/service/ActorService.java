@@ -3,7 +3,6 @@ package com.franktranvantu.jdbc.service;
 import com.franktranvantu.jdbc.dao.ActorDao;
 import com.franktranvantu.jdbc.domain.Actor;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,19 +13,19 @@ public class ActorService {
     private final ActorDao actorDao;
 
     public int count() {
-        return actorDao.count();
+        return actorDao.countAll();
     }
     public int count(String firstName) {
         return actorDao.count(firstName);
     }
     public String lastName(long id) {
-        return actorDao.lastName(id);
+        return actorDao.selectLastName(id);
     }
     public Actor actor(long id) {
-        return actorDao.actor(id);
+        return actorDao.selectActor(id);
     }
     public List<Actor> actors() {
-        return actorDao.actors();
+        return actorDao.selectActors();
     }
     public void insert(String firstName, String lastName) {
         actorDao.insert(firstName, lastName);
