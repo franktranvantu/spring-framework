@@ -5,6 +5,7 @@ import com.franktranvantu.jdbc.mapper.ActorRowMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -37,11 +38,15 @@ public class NamedParameterJdbcTemplateDao implements ActorDao {
     }
 
     public Actor selectActor(long id) {
-        final var namedParameters = Map.of("id", id);
-        return jdbcTemplate.queryForObject(
-                "select id, first_name, last_name from t_actor where id = :id",
-                namedParameters,
-                actorRowMapper);
+        try {
+            final var namedParameters = Map.of("id", id);
+            return jdbcTemplate.queryForObject(
+                    "select id, first_name, last_name from t_actor where id = :id",
+                    namedParameters,
+                    actorRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     public List<Actor> selectActors() {

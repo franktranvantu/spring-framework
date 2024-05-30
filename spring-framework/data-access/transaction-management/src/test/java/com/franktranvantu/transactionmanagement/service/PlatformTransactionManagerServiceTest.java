@@ -3,13 +3,14 @@ package com.franktranvantu.transactionmanagement.service;
 import com.franktranvantu.transactionmanagement.TestUtils;
 import com.franktranvantu.transactionmanagement.config.AppTestConfig;
 import com.franktranvantu.transactionmanagement.dao.ActorDao;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
@@ -21,17 +22,18 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 
-@SpringBootTest(classes = {AppTestConfig.class})
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@ContextConfiguration(classes = {AppTestConfig.class})
+@ExtendWith(SpringExtension.class)
+@ActiveProfiles("test")
 class PlatformTransactionManagerServiceTest {
     @Autowired
-    PlatformTransactionManagerService underTest;
+    private PlatformTransactionManagerService underTest;
     @Autowired
-    JdbcClient jdbcClient;
+    private JdbcClient jdbcClient;
     @Autowired
-    DataSource dataSource;
+    private DataSource dataSource;
     @Autowired
-    ActorDao actorDao;
+    private ActorDao actorDao;
 
     @BeforeEach
     public void setUp() {

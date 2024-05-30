@@ -7,21 +7,27 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.sql.DataSource;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = {AppTestConfig.class})
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@ContextConfiguration(classes = {AppTestConfig.class})
+@ExtendWith(SpringExtension.class)
+@ActiveProfiles("test")
 class JdbcClientDaoTest {
     @Autowired
-    JdbcClientDao underTest;
+    @Qualifier("jdbcClientDao")
+    private ActorDao underTest;
     @Autowired
-    DataSource dataSource;
+    private DataSource dataSource;
 
     @BeforeEach
     public void setUp() {

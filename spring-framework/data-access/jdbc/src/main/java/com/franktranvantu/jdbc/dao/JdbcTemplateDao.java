@@ -5,6 +5,7 @@ import com.franktranvantu.jdbc.mapper.ActorRowMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -33,14 +34,18 @@ public class JdbcTemplateDao implements ActorDao {
     }
 
     public Actor selectActor(long id) {
-        return jdbcTemplate.queryForObject(
-                "select id, first_name, last_name from t_actor where id = ?",
-                (resultSet, rowNum) -> new Actor(
-                        resultSet.getLong("id"),
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name")
-                ),
-                id);
+        try {
+            return jdbcTemplate.queryForObject(
+                    "select id, first_name, last_name from t_actor where id = ?",
+                    (resultSet, rowNum) -> new Actor(
+                            resultSet.getLong("id"),
+                            resultSet.getString("first_name"),
+                            resultSet.getString("last_name")
+                    ),
+                    id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     public List<Actor> selectActors() {
