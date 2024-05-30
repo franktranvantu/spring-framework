@@ -8,6 +8,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 
+import static org.springframework.transaction.TransactionDefinition.ISOLATION_REPEATABLE_READ;
+import static org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRES_NEW;
+
 @Configuration
 public class TransactionConfig {
     @Bean
@@ -17,6 +20,11 @@ public class TransactionConfig {
 
     @Bean
     public TransactionTemplate transactionTemplate(PlatformTransactionManager transactionManager) {
-        return new TransactionTemplate(transactionManager);
+        final var transactionTemplate = new TransactionTemplate(transactionManager);
+        transactionTemplate.setIsolationLevel(ISOLATION_REPEATABLE_READ);
+        transactionTemplate.setPropagationBehavior(PROPAGATION_REQUIRES_NEW);
+        transactionTemplate.setTimeout(30); // seconds
+        transactionTemplate.setReadOnly(true);
+        return transactionTemplate;
     }
 }
