@@ -7,17 +7,20 @@ logback = "1.4.14"
 junitJupiter = "5.10.2"
 assertj = "3.25.3"
 mysqlConnector = "8.4.0"
+h2Database = "2.2.224"
 
 [libraries]
 springContext = { module = "org.springframework:spring-context", version.ref = "spring" }
 springJdbc = { module = "org.springframework:spring-jdbc", version.ref = "spring" }
+springTest = { module = "org.springframework:spring-test", version.ref = "spring" }
 springBootStarterTest = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
 springBootStarter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "springBoot" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
-mysqlConnector = { module = "com.mysql:mysql-connector-j", version.ref = "mysqlConnector" }
 junitJupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junitJupiter" }
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+mysqlConnector = { module = "com.mysql:mysql-connector-j", version.ref = "mysqlConnector" }
+h2Database = { module = "com.h2database:h2", version.ref = "h2Database" }
 
 [plugins]
 dependencyManagement = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }

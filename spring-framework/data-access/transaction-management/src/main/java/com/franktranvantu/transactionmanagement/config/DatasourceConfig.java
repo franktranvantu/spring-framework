@@ -3,12 +3,9 @@ package com.franktranvantu.transactionmanagement.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.core.simple.JdbcClient;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import org.springframework.transaction.TransactionManager;
 
 import javax.sql.DataSource;
 
@@ -35,15 +32,4 @@ public class DatasourceConfig {
         dataSourceInitializer.setDatabasePopulator(resourceDatabasePopulator);
         return dataSourceInitializer;
     }
-
-    @Bean
-    public JdbcClient jdbcClient() {
-        return JdbcClient.create(dataSource());
-    }
-
-    @Bean
-    public TransactionManager transactionManager() {
-        return new DataSourceTransactionManager(dataSource());
-    }
-
 }

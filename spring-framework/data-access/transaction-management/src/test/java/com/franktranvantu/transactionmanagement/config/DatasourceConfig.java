@@ -1,4 +1,4 @@
-package com.franktranvantu.jdbc.config;
+package com.franktranvantu.transactionmanagement.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,12 +11,14 @@ import javax.sql.DataSource;
 
 @Configuration
 public class DatasourceConfig {
+
     @Bean
-    public DataSource driverManagerDataSource() {
+    public DataSource dataSource() {
         final var dataSource = new DriverManagerDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/spring_jdbc");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
+        dataSource.setDriverClassName("org.h2.Driver");
+        dataSource.setUrl("jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
+        dataSource.setUsername("sa");
+        dataSource.setPassword("sa");
         return dataSource;
     }
 
@@ -27,9 +29,8 @@ public class DatasourceConfig {
         resourceDatabasePopulator.addScript(new ClassPathResource("/db/data.sql"));
 
         DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
-        dataSourceInitializer.setDataSource(driverManagerDataSource());
+        dataSourceInitializer.setDataSource(dataSource());
         dataSourceInitializer.setDatabasePopulator(resourceDatabasePopulator);
         return dataSourceInitializer;
     }
-
 }

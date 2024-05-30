@@ -3,5 +3,10 @@ subprojects {
         implementation(libs.springContext)
         implementation(libs.springJdbc)
         runtimeClasspath(libs.mysqlConnector)
+//        testImplementation(libs.springTest)
+        // Lombok
+        testCompileOnly(libs.lombok)
+        testAnnotationProcessor(libs.lombok)
+        testImplementation(libs.h2Database)
     }
 }

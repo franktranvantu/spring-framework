@@ -17,11 +17,15 @@ subprojects {
         implementation(libs.logback)
 
         // Starter Test
-//        testImplementation(libs.spring.boot.test)
+        testImplementation(libs.springBootStarterTest)
         // Junit Jupiter
         testImplementation(libs.junitJupiter)
         // AssertJ
         testImplementation(libs.assertj)
+    }
+
+    test {
+        useJUnitPlatform()
     }
 
 //    sourceSets {
