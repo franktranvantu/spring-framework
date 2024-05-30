@@ -13,17 +13,16 @@ public class Application {
     public static void main(String[] args) {
         final var context = new AnnotationConfigApplicationContext(Application.class);
         final var service = context.getBean(ActorService.class);
-        final var rowCount = service.count();
-        final var countOfActorsNamedJoe = service.count("Robert");
-        final var lastName = service.lastName(3);
-        final var actor = service.actor(3);
-        final var actors = service.actors();
-        service.insert("Frank", "Tran");
-        service.update("Ruffalo", 3);
-        service.delete(3);
-        service.execute("create table mytable (id integer, name varchar(100))");
+        final var rowCount = service.getAll();
+        final var firstName = service.getFirstName("Robert");
+        final var lastName = service.getLastName(3);
+        final var actor = service.getActor(3);
+        final var actors = service.getActors();
+        service.createActor("Frank", "Tran");
+        service.updateActor("Ruffalo", 3);
+        service.deleteActor(3);
         log.info("rowCount: {}", rowCount);
-        log.info("countOfActorsNamedJoe: {}", countOfActorsNamedJoe);
+        log.info("firstName: {}", firstName);
         log.info("lastName: {}", lastName);
         log.info("actor: {}", actor);
         log.info("actors: {}", actors);

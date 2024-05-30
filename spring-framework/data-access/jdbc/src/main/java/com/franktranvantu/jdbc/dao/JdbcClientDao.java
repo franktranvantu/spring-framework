@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 
@@ -28,8 +29,8 @@ public class JdbcClientDao implements ActorDao {
 
     public int count(String firstName) {
         return jdbcTemplate
-                .sql("select count(*) from t_actor where first_name = :firstName")
-                .param("firstName", firstName)
+                .sql("select count(*) from t_actor where first_name = ?")
+                .param(firstName)
                 .query(Integer.class)
                 .single();
     }
@@ -43,11 +44,15 @@ public class JdbcClientDao implements ActorDao {
     }
 
     public Actor selectActor(long id) {
-        return jdbcTemplate
-                .sql("select id, first_name, last_name from t_actor where id = :id")
-                .param("id", id)
-                .query(actorRowMapper)
-                .single();
+        try {
+            return jdbcTemplate
+                    .sql("select id, first_name, last_name from t_actor where id = :id")
+                    .param("id", id)
+                    .query(actorRowMapper)
+                    .single();
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     public List<Actor> selectActors() {

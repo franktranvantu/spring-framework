@@ -12,31 +12,28 @@ import java.util.List;
 public class ActorService {
     private final ActorDao actorDao;
 
-    public int count() {
+    public int getAll() {
         return actorDao.countAll();
     }
-    public int count(String firstName) {
+    public int getFirstName(String firstName) {
         return actorDao.count(firstName);
     }
-    public String lastName(long id) {
+    public String getLastName(long id) {
         return actorDao.selectLastName(id);
     }
-    public Actor actor(long id) {
+    public Actor getActor(long id) {
         return actorDao.selectActor(id);
     }
-    public List<Actor> actors() {
+    public List<Actor> getActors() {
         return actorDao.selectActors();
     }
-    public void insert(String firstName, String lastName) {
+    public void createActor(String firstName, String lastName) {
         actorDao.insert(firstName, lastName);
     }
-    public void update(String lastName, long id) {
+    public void updateActor(String lastName, long id) {
         actorDao.update(lastName, id);
     }
-    public void delete(long id) {
+    public void deleteActor(long id) {
         actorDao.delete(id);
-    }
-    public void execute(String sql) {
-        actorDao.execute(sql);
     }
 }
