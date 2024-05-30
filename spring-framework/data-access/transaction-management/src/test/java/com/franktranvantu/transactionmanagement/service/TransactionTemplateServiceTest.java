@@ -1,5 +1,6 @@
 package com.franktranvantu.transactionmanagement.service;
 
+import com.franktranvantu.transactionmanagement.TestUtils;
 import com.franktranvantu.transactionmanagement.config.AppConfig;
 import com.franktranvantu.transactionmanagement.config.DatasourceConfig;
 import com.franktranvantu.transactionmanagement.config.JdbcClientConfig;
@@ -14,32 +15,35 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
+import javax.sql.DataSource;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest(classes = {AppConfig.class, DatasourceConfig.class, JdbcClientConfig.class, TransactionConfig.class})
 @FieldDefaults(level = AccessLevel.PRIVATE)
-class ActorServiceTest {
+class TransactionTemplateServiceTest {
     @Autowired
-    ActorService underTest;
+    TransactionTemplateService underTest;
     @Autowired
     JdbcClient jdbcClient;
+    @Autowired
+    DataSource dataSource;
     @Autowired
     ActorDao actorDao;
 
     @BeforeEach
     public void setUp() {
+        TestUtils.freshDatabase(dataSource);
         reset(actorDao);
     }
 
     @Test
-    void givenInvalidActor_whenUsingPlatformTransactionManager_thenRollback() {
+    void givenInvalidActor_whenInsertThenUpdate_thenRollback() {
         assertThatThrownBy(() -> underTest.insertThenUpdate("First", "Last", 1))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("You must be at least 18 years old.");
@@ -50,10 +54,21 @@ class ActorServiceTest {
     }
 
     @Test
-    void givenValidActor_whenUsingPlatformTransactionManager_thenCommit() {
+    void givenValidActor_whenInsertThenUpdate_thenCommit() {
         underTest.insertThenUpdate("First", "Last", 20);
-        assertThatNoException();
         final var rowCounts = JdbcTestUtils.countRowsInTable(jdbcClient, "t_actor");
+        assertThatNoException();
+        assertThat(rowCounts).isEqualTo(4);
+        verify(actorDao).insert("First", "Last");
+        verify(actorDao).update("Last", 1);
+    }
+
+    @Test
+    void givenValidActor_whenInsertThenUpdateAndReturn_thenCommit() {
+        final var id = underTest.insertThenUpdateAndReturn("First", "Last", 20);
+        final var rowCounts = JdbcTestUtils.countRowsInTable(jdbcClient, "t_actor");
+        assertThatNoException();
+        assertThat(id).isEqualTo(1);
         assertThat(rowCounts).isEqualTo(4);
         verify(actorDao).insert("First", "Last");
         verify(actorDao).update("Last", 1);
